@@ -49,8 +49,8 @@ category.GetJson<ClassType>("filename");
 ```
 You can also get a list of all the json files in the category
 ```cs
-//get a list of names of json files in the category
-var jsonnames = category.GetAllJson();
+//get a list of json files in the category
+var jsoninfo = category.GetAllJson();
 
 //or directly deserialize all the data at once into a list
 var jsondata = category.GetAllJson<ClassType>();
