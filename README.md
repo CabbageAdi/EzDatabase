@@ -45,11 +45,15 @@ category.SaveFile("filename", ".jpg", MyStream);
 ## Reading and processing data
 You can retrieve json data from your database
 ```cs
+//directly deserializes the json file
 category.GetJson<ClassType>("filename");
+
+//gets the FileInfo for the json file
+category.GetJson("filename");
 ```
 You can also get a list of all the json files in the category
 ```cs
-//get a list of json files in the category
+//get a list of names of json files in the category
 var jsoninfo = category.GetAllJson();
 
 //or directly deserialize all the data at once into a list
