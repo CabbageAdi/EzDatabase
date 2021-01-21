@@ -61,7 +61,7 @@ To get files in your category
 var file = category.GetFile("my image", ".jpg");
 
 //gets a list of all files in the category
-var files = category.GetAllFiles()
+var files = category.GetAllFiles();
 
 //or all files with the specified extension
 var jpgfiles = category.GetAllFiles(".jpg");
