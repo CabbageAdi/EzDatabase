@@ -143,16 +143,33 @@ namespace EasyDatabase
             var text = File.ReadAllText(FilePath);
             return JsonConvert.DeserializeObject<T>(text);
         }
+        /// <summary>
+        /// Gets a json file in this category
+        /// </summary>
+        /// <param name="name">The name of the json file</param>
+        /// <returns>A FileInfo object corresponding to the json file</returns>
+        public FileInfo GetJson(string name)
+        {
+            return new FileInfo($"{Path}\\{name}.json");
+        }
 
         /// <summary>
         /// Gets a list of names of all json files in this category
         /// </summary>
         /// <returns>A list of the names of json files in this category</returns>
-        public IReadOnlyList<FileInfo> GetAllJson()
+        public IReadOnlyList<string> GetAllJson()
         {
             var info = new DirectoryInfo(Path);
             var files = info.GetFiles();
-            return files.Where(file => file.Extension == ".json").ToList();
+            List<string> filenames = Array.Empty<string>().ToList();
+            foreach (var file in files)
+            {
+                if (file.Extension == ".json")
+                {
+                    filenames.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                }
+            }
+            return filenames;
         }
 
         /// <summary>

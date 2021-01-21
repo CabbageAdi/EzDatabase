@@ -180,6 +180,13 @@
             <param name="name">The name of the json file</param>
             <returns>The deserialized object from the json file</returns>
         </member>
+        <member name="M:EasyDatabase.EasyDatabaseCategory.GetJson(System.String)">
+            <summary>
+            Gets a json file in this category
+            </summary>
+            <param name="name">The name of the json file</param>
+            <returns>A FileInfo object corresponding to the json file</returns>
+        </member>
         <member name="M:EasyDatabase.EasyDatabaseCategory.GetAllJson">
             <summary>
             Gets a list of names of all json files in this category
