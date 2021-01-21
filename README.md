@@ -76,4 +76,4 @@ To delete a file
 category.DeleteFile("filename", ".jpg");
 ```
 # Contributing and getting help
-This is still under heavy development, and there are likely many bugs. If you would like to contribute, feel free to open a pull request. If you have any questions, you can open a discussion
+This is still under heavy development, and there are likely many bugs. If you would like to contribute, feel free to open a pull request. If you have any questions, you can open a discussion or [Join our discord server](https://discord.gg/2ZhXXVJYhU)
