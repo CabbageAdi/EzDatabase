@@ -49,8 +49,8 @@ category.GetJson<ClassType>("filename");
 ```
 You can also get a list of all the json files in the category
 ```cs
-//get a list of names of json files in the category
-var jsonnames = category.GetAllJson();
+//get a list of json files in the category
+var jsoninfo = category.GetAllJson();
 
 //or directly deserialize all the data at once into a list
 var jsondata = category.GetAllJson<ClassType>();
@@ -76,6 +76,4 @@ To delete a file
 category.DeleteFile("filename", ".jpg");
 ```
 # Contributing and getting help
-This is still under heavy development, and there are likely many bugs. If you would like to contribute, feel free to open a pull request.
-
-Coming soon: discussions page, discord server
+This is still under heavy development, and there are likely many bugs. If you would like to contribute, feel free to open a pull request. If you have any questions, you can open a discussion or [Join our discord server](https://discord.gg/2ZhXXVJYhU)
