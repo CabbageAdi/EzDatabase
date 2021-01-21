@@ -148,19 +148,11 @@ namespace EasyDatabase
         /// Gets a list of names of all json files in this category
         /// </summary>
         /// <returns>A list of the names of json files in this category</returns>
-        public IReadOnlyList<string> GetAllJson()
+        public IReadOnlyList<FileInfo> GetAllJson()
         {
             var info = new DirectoryInfo(Path);
             var files = info.GetFiles();
-            List<string> filenames = Array.Empty<string>().ToList();
-            foreach (var file in files)
-            {
-                if (file.Extension == ".json")
-                {
-                    filenames.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name));
-                }
-            }
-            return filenames;
+            return files.Where(file => file.Extension == ".json").ToList();
         }
 
         /// <summary>
