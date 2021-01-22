@@ -45,21 +45,65 @@ namespace EzDatabase.AsyncExtension
         /// </summary>
         /// <typeparam name="T">The type of the json files</typeparam>
         /// <param name="category">The base category</param>
-        /// <returns>A list of deserialized objects</returns>
-        public static async Task<IReadOnlyList<T>> GetAllJsonAsync<T>(this DatabaseCategory category)
+        /// <returns>A dictionary with the key being the name of the file and the value a the object</returns>
+        public static async Task<IReadOnlyDictionary<string, T>> GetAllJsonAsync<T>(this DatabaseCategory category)
         {
             var info = new DirectoryInfo(category.Path);
             var files = info.GetFiles();
-            List<T> result = Array.Empty<T>().ToList();
+            var dictionary = new Dictionary<string, T>();
             foreach (var file in files)
             {
                 if (file.Extension == ".json")
                 {
                     var text = await File.ReadAllTextAsync(file.FullName);
-                    result.Add(JsonConvert.DeserializeObject<T>(text));
+                    dictionary.Add(Path.GetFileNameWithoutExtension(file.Name), JsonConvert.DeserializeObject<T>(text));
                 }
             }
-            return result;
+            return dictionary;
+        }
+
+        /// <summary>
+        /// Asynchronously saves the given text in a .txt file
+        /// </summary>
+        /// <param name="category">The base category</param>
+        /// <param name="name">The name of the file</param>
+        /// <param name="text">The text to be written in the file</param>
+        public static async Task SaveTextAsync(this DatabaseCategory category, string name, string text)
+        {
+            await File.WriteAllTextAsync($"{category.Path}\\{name}.txt", text);
+        }
+
+        /// <summary>
+        /// Asynchronously gets the text from the given file
+        /// </summary>
+        /// <param name="category">The base category</param>
+        /// <param name="name">The name of the file</param>
+        /// <returns>The text from the file</returns>
+        public static async Task<string> GetTextAsync(this DatabaseCategory category, string name)
+        {
+            var text = await File.ReadAllTextAsync($"{category.Path}\\{name}.txt");
+            return text;
+        }
+
+        /// <summary>
+        /// Asynchronously gets a list of all text files from the category
+        /// </summary>
+        /// /// <param name="category">The base category</param>
+        /// <returns>A dictionary with the key being the name of the file and the value the text in the file</returns>
+        public static async Task<IReadOnlyDictionary<string, string>> GetAllTextAsync(this DatabaseCategory category)
+        {
+            var info = new DirectoryInfo(category.Path);
+            var files = info.GetFiles();
+            var dictionary = new Dictionary<string, string>();
+            foreach (var file in files)
+            {
+                if (file.Extension == ".txt")
+                {
+                    var text = await File.ReadAllTextAsync(file.FullName);
+                    dictionary.Add(Path.GetFileNameWithoutExtension(file.Name), text);
+                }
+            }
+            return dictionary;
         }
 
         /// <summary>
