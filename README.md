@@ -13,4 +13,4 @@ To create some other type of file, you can simply specify the name and extension
 # How to use
 to get example usage and documentation, check out the [Docs](https://idoeverything.github.io/EzDatabase/)
 # Contributing and getting help
-This is still under heavy development, and there are likely many bugs. If you would like to contribute, feel free to open a pull request. If you have any questions, you can open a discussion or [Join our discord server](https://discord.gg/2ZhXXVJYhU)
+This is still under heavy development, and there are likely many bugs. If you would like to contribute, feel free to open a [pull request](https://github.com/IDoEverything/EzDatabase/pulls). If you have any questions, you can [join our discord server](https://discord.gg/2ZhXXVJYhU) or [open a discussion](https://github.com/IDoEverything/EzDatabase/discussions)
