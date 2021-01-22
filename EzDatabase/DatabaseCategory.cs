@@ -158,6 +158,16 @@ namespace EzDatabase
         }
 
         /// <summary>
+        /// Gets whether a json file with the specified name exists in this category
+        /// </summary>
+        /// <param name="name">The name of the json file to check for</param>
+        /// <returns>A bool indicating whether the json file exists</returns>
+        public bool HasJson(string name)
+        {
+            return File.Exists($"{Path}\\{name}.json");
+        }
+
+        /// <summary>
         /// Gets a list of names of all json files in this category
         /// </summary>
         /// <returns>A list of the names of json files in this category</returns>
@@ -222,6 +232,16 @@ namespace EzDatabase
         public string GetText(string name)
         {
             return File.ReadAllText($"{Path}\\{name}.txt");
+        }
+
+        /// <summary>
+        /// Gets whether a text file with the specified name exists in this category
+        /// </summary>
+        /// <param name="name">The name of the text file to check for</param>
+        /// <returns>A bool indicating whether the text file with the specified name exists</returns>
+        public bool HasText(string name)
+        {
+            return File.Exists($"{Path}\\{name}.txt");
         }
 
         /// <summary>
@@ -300,6 +320,17 @@ namespace EzDatabase
         public FileInfo GetFile(string name, string extension)
         {
             return new FileInfo($"{Path}\\{name}{extension}");
+        }
+
+        /// <summary>
+        /// Gets whether a file with the specified name and extension exists in this category
+        /// </summary>
+        /// <param name="name">The name of the file to look for</param>
+        /// <param name="extension">The extension of the file to look for with a period (for example: ".jpg")</param>
+        /// <returns>A bool indicating whether the file with the specified name and extension exists in this category</returns>
+        public bool HasFile(string name, string extension)
+        {
+            return File.Exists($"{Path}\\{name}{extension}");
         }
 
         /// <summary>
