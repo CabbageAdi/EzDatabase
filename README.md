@@ -1,5 +1,5 @@
 # EzDatabase
-[![Discord Server](https://img.shields.io/discord/379378609942560770.svg?label=discord)](https://discord.gg/https://discord.gg/2ZhXXVJYhU)
+[![Discord Server](https://img.shields.io/discord/801857343930761281.svg?label=discord)](https://discord.gg/https://discord.gg/2ZhXXVJYhU)
 
 An easy to use json based I/O database for C#
 
