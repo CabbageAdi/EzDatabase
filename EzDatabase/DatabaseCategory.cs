@@ -28,14 +28,14 @@ namespace EzDatabase
         public string Path { get; internal set; }
 
         /// <summary>
+        /// Gets the full path of this category
+        /// </summary>
+        public string FullPath { get; internal set; }
+
+        /// <summary>
         /// If a subcategory, gets the parent category, otherwise returns null
         /// </summary>
         public DatabaseCategory ParentCategory { get; internal set; }
-
-        /// <summary>
-        /// A list of all the subcategories in this category
-        /// </summary>
-        public List<DatabaseCategory> SubCategories { get; internal set; }
 
         internal DatabaseCategory(Database database, string name)
         {
@@ -58,15 +58,15 @@ namespace EzDatabase
         internal void Initailize()
         {
             Path = $"{BaseDatabase.Name}\\{Name}";
-            Directory.CreateDirectory(Path);
-            GetSubCategories();
+            var directory = Directory.CreateDirectory(Path);
+            FullPath = directory.FullName;
         }
 
         internal void InitializeSubCategory()
         {
             Path = $"{ParentCategory.Path}\\{Name}";
-            Directory.CreateDirectory(Path);
-            GetSubCategories();
+            var directory = Directory.CreateDirectory(Path);
+            FullPath = directory.FullName;
         }
 
         /// <summary>
@@ -77,7 +77,6 @@ namespace EzDatabase
         public DatabaseCategory CreateSubCategory(string name)
         {
             var subcategory = new DatabaseCategory(this, name);
-            SubCategories.Add(subcategory);
             return subcategory;
         }
 
@@ -89,7 +88,6 @@ namespace EzDatabase
         public DatabaseCategory GetSubCategory(string name)
         {
             var subcategory = new DatabaseCategory(this, name);
-            SubCategories.Add(subcategory);
             return subcategory;
         }
 
@@ -101,12 +99,11 @@ namespace EzDatabase
         {
             var info = new DirectoryInfo(Path);
             var directories = info.GetDirectories();
-            List<DatabaseCategory> result = Array.Empty<DatabaseCategory>().ToList();
+            var result = new List<DatabaseCategory>();
             foreach (var directory in directories)
             {
                 result.Add(new DatabaseCategory(this, directory.Name));
             }
-            SubCategories = result;
             return result;
         }
 
@@ -161,7 +158,7 @@ namespace EzDatabase
         {
             var info = new DirectoryInfo(Path);
             var files = info.GetFiles();
-            List<string> filenames = Array.Empty<string>().ToList();
+            var filenames = new List<string>();
             foreach (var file in files)
             {
                 if (file.Extension == ".json")

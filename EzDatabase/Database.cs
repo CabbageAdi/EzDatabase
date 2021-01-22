@@ -16,9 +16,9 @@ namespace EzDatabase
         public string Name { get; internal set; }
 
         /// <summary>
-        /// A list of the categories of the database
+        /// Gets the path of this database
         /// </summary>
-        public List<DatabaseCategory> Categories { get; internal set; }
+        public string FullPath { get; internal set; }
 
         /// <summary>
         /// Creates a new database
@@ -33,8 +33,8 @@ namespace EzDatabase
 
         internal void Initialize()
         {
-            Directory.CreateDirectory(Name);
-            GetCategories();
+            var directory = Directory.CreateDirectory(Name);
+            FullPath = directory.FullName;
         }
 
         /// <summary>
@@ -45,10 +45,6 @@ namespace EzDatabase
         public DatabaseCategory CreateCategory(string name)
         {
             var category = new DatabaseCategory(this, name);
-            if(!Categories.Where(x => x.Name.ToLower() == name.ToLower()).Any())
-            {
-                Categories.Add(category);
-            }
             return category;
         }
 
@@ -60,10 +56,6 @@ namespace EzDatabase
         public DatabaseCategory GetCategory(string name)
         {
             var category = new DatabaseCategory(this, name);
-            if (!Categories.Where(x => x.Name.ToLower() == name.ToLower()).Any())
-            {
-                Categories.Add(category);
-            }
             return category;
         }
 
@@ -75,12 +67,11 @@ namespace EzDatabase
         {
             var info = new DirectoryInfo(Name);
             var directories = info.GetDirectories();
-            List<DatabaseCategory> result = Array.Empty<DatabaseCategory>().ToList();
+            var result = new List<DatabaseCategory>();
             foreach (var directory in directories)
             {
                 result.Add(new DatabaseCategory(this, directory.Name));
             }
-            Categories = result;
             return result;
         }
 
@@ -92,7 +83,6 @@ namespace EzDatabase
         public void DeleteCategory(string name)
         {
             Directory.Delete($"{Name}\\{name}", true);
-            GetCategories();
         }
     }
 }
