@@ -12,7 +12,7 @@ var category = database.CreateCategory("A category");
 ```
 You can also make subcategories inside categories
 ```cs
-var subcategory = category.CreateSubDirectory("a subcategory");
+var subcategory = category.CreateSubCategory("a subcategory");
 ```
 And use it as a regular category
 ## Storing data
