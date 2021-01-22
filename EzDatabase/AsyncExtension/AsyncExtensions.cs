@@ -7,7 +7,7 @@ using System.IO;
 using System.Net;
 using System.Linq;
 
-namespace EasyDatabase.AsyncExtension
+namespace EzDatabase.AsyncExtension
 {
     /// <summary>
     /// Extensions for creating and reading files asynchronously
@@ -20,7 +20,7 @@ namespace EasyDatabase.AsyncExtension
         /// <param name="category">The base category</param>
         /// <param name="name">The name of the file to create</param>
         /// <param name="data">The object to serialize and store</param>
-        public static async Task SaveJsonAsync(this EasyDatabaseCategory category, string name, object data)
+        public static async Task SaveJsonAsync(this DatabaseCategory category, string name, object data)
         {
             var json = JsonConvert.SerializeObject(data);
             await File.WriteAllTextAsync($"{category.Path}\\{name}.json", json);
@@ -33,7 +33,7 @@ namespace EasyDatabase.AsyncExtension
         /// <param name="category">The base category</param>
         /// <param name="name">The name of the json file</param>
         /// <returns>The deserialized object from the json file</returns>
-        public static async Task<T> GetJsonsync<T>(this EasyDatabaseCategory category, string name)
+        public static async Task<T> GetJsonsync<T>(this DatabaseCategory category, string name)
         {
             var FilePath = $"{category.Path}\\{name}.json";
             var text = await File.ReadAllTextAsync(FilePath);
@@ -46,7 +46,7 @@ namespace EasyDatabase.AsyncExtension
         /// <typeparam name="T">The type of the json files</typeparam>
         /// <param name="category">The base category</param>
         /// <returns>A list of deserialized objects</returns>
-        public static async Task<IReadOnlyList<T>> GetAllJsonAsync<T>(this EasyDatabaseCategory category)
+        public static async Task<IReadOnlyList<T>> GetAllJsonAsync<T>(this DatabaseCategory category)
         {
             var info = new DirectoryInfo(category.Path);
             var files = info.GetFiles();
@@ -69,7 +69,7 @@ namespace EasyDatabase.AsyncExtension
         /// <param name="name">The name of the file</param>
         /// <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
         /// <param name="data">The data to be stored in the file</param>
-        public static async Task SaveFileAsync(this EasyDatabaseCategory category, string name, string extension, string data)
+        public static async Task SaveFileAsync(this DatabaseCategory category, string name, string extension, string data)
         {
             await File.WriteAllTextAsync($"{category.Path}\\{name}{extension}", data);
         }
@@ -80,7 +80,7 @@ namespace EasyDatabase.AsyncExtension
         /// <param name="name">The name of the file</param>
         /// <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
         /// <param name="data">The data to be stored in the file</param>
-        public static async Task SaveFileAsync(this EasyDatabaseCategory category, string name, string extension, byte[] data)
+        public static async Task SaveFileAsync(this DatabaseCategory category, string name, string extension, byte[] data)
         {
             await File.WriteAllBytesAsync($"{category.Path}\\{name}{extension}", data);
         }
@@ -91,7 +91,7 @@ namespace EasyDatabase.AsyncExtension
         /// <param name="name">The name of the file</param>
         /// <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
         /// <param name="data">The data to be stored in the file</param>
-        public static async Task SaveFile(this EasyDatabaseCategory category, string name, string extension, Stream data)
+        public static async Task SaveFile(this DatabaseCategory category, string name, string extension, Stream data)
         {
             if (data is MemoryStream)
             {

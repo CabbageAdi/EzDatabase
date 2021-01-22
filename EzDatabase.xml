@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>EasyDatabase</name>
+        <name>EzDatabase</name>
     </assembly>
     <members>
-        <member name="T:EasyDatabase.AsyncExtension.AsyncExtensions">
+        <member name="T:EzDatabase.AsyncExtension.AsyncExtensions">
             <summary>
             Extensions for creating and reading files asynchronously
             </summary>
         </member>
-        <member name="M:EasyDatabase.AsyncExtension.AsyncExtensions.SaveJsonAsync(EasyDatabase.EasyDatabaseCategory,System.String,System.Object)">
+        <member name="M:EzDatabase.AsyncExtension.AsyncExtensions.SaveJsonAsync(EzDatabase.DatabaseCategory,System.String,System.Object)">
             <summary>
             Asynchronously saves or overwrites a json file in this category
             </summary>
@@ -17,7 +17,7 @@
             <param name="name">The name of the file to create</param>
             <param name="data">The object to serialize and store</param>
         </member>
-        <member name="M:EasyDatabase.AsyncExtension.AsyncExtensions.GetJsonsync``1(EasyDatabase.EasyDatabaseCategory,System.String)">
+        <member name="M:EzDatabase.AsyncExtension.AsyncExtensions.GetJsonsync``1(EzDatabase.DatabaseCategory,System.String)">
             <summary>
             Asynchronously gets a json file in this category
             </summary>
@@ -26,7 +26,7 @@
             <param name="name">The name of the json file</param>
             <returns>The deserialized object from the json file</returns>
         </member>
-        <member name="M:EasyDatabase.AsyncExtension.AsyncExtensions.GetAllJsonAsync``1(EasyDatabase.EasyDatabaseCategory)">
+        <member name="M:EzDatabase.AsyncExtension.AsyncExtensions.GetAllJsonAsync``1(EzDatabase.DatabaseCategory)">
             <summary>
             Asynchronously gets a list of deseralized json files in this category
             </summary>
@@ -34,7 +34,7 @@
             <param name="category">The base category</param>
             <returns>A list of deserialized objects</returns>
         </member>
-        <member name="M:EasyDatabase.AsyncExtension.AsyncExtensions.SaveFileAsync(EasyDatabase.EasyDatabaseCategory,System.String,System.String,System.String)">
+        <member name="M:EzDatabase.AsyncExtension.AsyncExtensions.SaveFileAsync(EzDatabase.DatabaseCategory,System.String,System.String,System.String)">
             <summary>
             Saves a file in this category with the specified name, extension and data
             </summary>
@@ -43,7 +43,7 @@
             <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
             <param name="data">The data to be stored in the file</param>
         </member>
-        <member name="M:EasyDatabase.AsyncExtension.AsyncExtensions.SaveFileAsync(EasyDatabase.EasyDatabaseCategory,System.String,System.String,System.Byte[])">
+        <member name="M:EzDatabase.AsyncExtension.AsyncExtensions.SaveFileAsync(EzDatabase.DatabaseCategory,System.String,System.String,System.Byte[])">
             <summary>
             Saves a file in this category with the specified name, extension and data
             </summary>
@@ -52,7 +52,7 @@
             <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
             <param name="data">The data to be stored in the file</param>
         </member>
-        <member name="M:EasyDatabase.AsyncExtension.AsyncExtensions.SaveFile(EasyDatabase.EasyDatabaseCategory,System.String,System.String,System.IO.Stream)">
+        <member name="M:EzDatabase.AsyncExtension.AsyncExtensions.SaveFile(EzDatabase.DatabaseCategory,System.String,System.String,System.IO.Stream)">
             <summary>
             Saves a file in this category with the specified name, extension and data
             </summary>
@@ -61,118 +61,118 @@
             <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
             <param name="data">The data to be stored in the file</param>
         </member>
-        <member name="T:EasyDatabase.Database">
+        <member name="T:EzDatabase.Database">
             <summary>
             Represents a database object
             </summary>
         </member>
-        <member name="P:EasyDatabase.Database.Name">
+        <member name="P:EzDatabase.Database.Name">
             <summary>
             Gets the name of the database
             </summary>
         </member>
-        <member name="P:EasyDatabase.Database.Categories">
+        <member name="P:EzDatabase.Database.Categories">
             <summary>
             A list of the categories of the database
             </summary>
         </member>
-        <member name="M:EasyDatabase.Database.#ctor(System.String)">
+        <member name="M:EzDatabase.Database.#ctor(System.String)">
             <summary>
             Creates a new database
             </summary>
             <param name="name">The name of the database to create</param>
         </member>
-        <member name="M:EasyDatabase.Database.CreateCategory(System.String)">
+        <member name="M:EzDatabase.Database.CreateCategory(System.String)">
             <summary>
             Gets or creates a category in the database
             </summary>
             <param name="name">The name of the category to create</param>
             <returns>The category created</returns>
         </member>
-        <member name="M:EasyDatabase.Database.GetCategory(System.String)">
+        <member name="M:EzDatabase.Database.GetCategory(System.String)">
             <summary>
             Gets or creates a category in the database
             </summary>
             <param name="name">The name of the category to get</param>
             <returns>The category requested</returns>
         </member>
-        <member name="M:EasyDatabase.Database.GetCategories">
+        <member name="M:EzDatabase.Database.GetCategories">
             <summary>
             Gets a list of all the categories in the database
             </summary>
             <returns>A list of all the categories</returns>
         </member>
-        <member name="M:EasyDatabase.Database.DeleteCategory(System.String)">
+        <member name="M:EzDatabase.Database.DeleteCategory(System.String)">
             <summary>
             Deletes a category in the database
             <para>WARNING: This irreversibly deletes the category and all the data inside of it</para>
             </summary>
             <param name="name">The name of the category to delete</param>
         </member>
-        <member name="T:EasyDatabase.EasyDatabaseCategory">
+        <member name="T:EzDatabase.DatabaseCategory">
             <summary>
             Represents a database category
             </summary>
         </member>
-        <member name="P:EasyDatabase.EasyDatabaseCategory.Name">
+        <member name="P:EzDatabase.DatabaseCategory.Name">
             <summary>
             Gets the name of the category
             </summary>
         </member>
-        <member name="P:EasyDatabase.EasyDatabaseCategory.BaseDatabase">
+        <member name="P:EzDatabase.DatabaseCategory.BaseDatabase">
             <summary>
             Gets the base database this category is in
             </summary>
         </member>
-        <member name="P:EasyDatabase.EasyDatabaseCategory.Path">
+        <member name="P:EzDatabase.DatabaseCategory.Path">
             <summary>
             Gets the path of this category
             </summary>
         </member>
-        <member name="P:EasyDatabase.EasyDatabaseCategory.ParentCategory">
+        <member name="P:EzDatabase.DatabaseCategory.ParentCategory">
             <summary>
             If a subcategory, gets the parent category, otherwise returns null
             </summary>
         </member>
-        <member name="P:EasyDatabase.EasyDatabaseCategory.SubCategories">
+        <member name="P:EzDatabase.DatabaseCategory.SubCategories">
             <summary>
             A list of all the subcategories in this category
             </summary>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.CreateSubCategory(System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.CreateSubCategory(System.String)">
             <summary>
             Creates a subcategory in this category
             </summary>
             <param name="name">Get name of the category to create</param>
             <returns>The category created</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetSubCategory(System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.GetSubCategory(System.String)">
             <summary>
             Gets or creates a subcategory in this category
             </summary>
             <param name="name">The name of the category to get or create</param>
             <returns>The category created or retrieved</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetSubCategories">
+        <member name="M:EzDatabase.DatabaseCategory.GetSubCategories">
             <summary>
             Gets a list of all the subcategories in this category
             </summary>
             <returns>A list of subcategories</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.DeleteSubCategory(System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.DeleteSubCategory(System.String)">
             <summary>
             Deletes a subcategory in this category
             </summary>
             <param name="name">The name of the subcategory to delete</param>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.SaveJson(System.String,System.Object)">
+        <member name="M:EzDatabase.DatabaseCategory.SaveJson(System.String,System.Object)">
             <summary>
             Saves or overwrites a json file in this category
             </summary>
             <param name="name">The name of the file to create</param>
             <param name="data">The object to serialize and store</param>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetJson``1(System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.GetJson``1(System.String)">
             <summary>
             Gets a json file in this category
             </summary>
@@ -180,33 +180,33 @@
             <param name="name">The name of the json file</param>
             <returns>The deserialized object from the json file</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetJson(System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.GetJson(System.String)">
             <summary>
             Gets a json file in this category
             </summary>
             <param name="name">The name of the json file</param>
             <returns>A FileInfo object corresponding to the json file</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetAllJson">
+        <member name="M:EzDatabase.DatabaseCategory.GetAllJson">
             <summary>
             Gets a list of names of all json files in this category
             </summary>
             <returns>A list of the names of json files in this category</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetAllJson``1">
+        <member name="M:EzDatabase.DatabaseCategory.GetAllJson``1">
             <summary>
             Gets a list of deseralized json files in this category
             </summary>
             <typeparam name="T">The type of the json files</typeparam>
             <returns>A list of deserialized objects</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.DeleteJson(System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.DeleteJson(System.String)">
             <summary>
             Deletes a json file in this category
             </summary>
             <param name="name"></param>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.SaveFile(System.String,System.String,System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.SaveFile(System.String,System.String,System.String)">
             <summary>
             Saves a file in this category with the specified name, extension and data
             </summary>
@@ -214,7 +214,7 @@
             <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
             <param name="data">The data to be stored in the file</param>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.SaveFile(System.String,System.String,System.Byte[])">
+        <member name="M:EzDatabase.DatabaseCategory.SaveFile(System.String,System.String,System.Byte[])">
             <summary>
             Saves a file in this category with the specified name, extension and data
             </summary>
@@ -222,7 +222,7 @@
             <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
             <param name="data">The data to be stored in the file</param>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.SaveFile(System.String,System.String,System.IO.Stream)">
+        <member name="M:EzDatabase.DatabaseCategory.SaveFile(System.String,System.String,System.IO.Stream)">
             <summary>
             Saves a file in this category with the specified name, extension and data
             </summary>
@@ -230,27 +230,27 @@
             <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
             <param name="data">The data to be stored in the file</param>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetFile(System.String,System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.GetFile(System.String,System.String)">
             <summary>
             Gets a file in this category with the specified name and extension
             </summary>
             <param name="name">The name of the file</param>
             <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetAllFiles">
+        <member name="M:EzDatabase.DatabaseCategory.GetAllFiles">
             <summary>
             Gets a list of all the files in this category
             </summary>
             <returns>A list of files in this category</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.GetAllFiles(System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.GetAllFiles(System.String)">
             <summary>
             Gets a list of all the files with the specified extension in this category
             </summary>
             <param name="extension"></param>
             <returns>A list of files with the specified extension</returns>
         </member>
-        <member name="M:EasyDatabase.EasyDatabaseCategory.DeleteFile(System.String,System.String)">
+        <member name="M:EzDatabase.DatabaseCategory.DeleteFile(System.String,System.String)">
             <summary>
             Deleted the specified file in the category
             </summary>

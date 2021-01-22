@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using System;
-using EasyDatabase.AsyncExtension;
+using EzDatabase.AsyncExtension;
 
-namespace EasyDatabase
+namespace EzDatabase
 {
     /// <summary>
     /// Represents a database category
     /// </summary>
-    public class EasyDatabaseCategory
+    public class DatabaseCategory
     {
         /// <summary>
         /// Gets the name of the category
@@ -30,14 +30,14 @@ namespace EasyDatabase
         /// <summary>
         /// If a subcategory, gets the parent category, otherwise returns null
         /// </summary>
-        public EasyDatabaseCategory ParentCategory { get; internal set; }
+        public DatabaseCategory ParentCategory { get; internal set; }
 
         /// <summary>
         /// A list of all the subcategories in this category
         /// </summary>
-        public List<EasyDatabaseCategory> SubCategories { get; internal set; }
+        public List<DatabaseCategory> SubCategories { get; internal set; }
 
-        internal EasyDatabaseCategory(Database database, string name)
+        internal DatabaseCategory(Database database, string name)
         {
             Name = name;
             BaseDatabase = database;
@@ -46,7 +46,7 @@ namespace EasyDatabase
             Initailize();
         }
 
-        internal EasyDatabaseCategory(EasyDatabaseCategory category, string name)
+        internal DatabaseCategory(DatabaseCategory category, string name)
         {
             Name = name;
             BaseDatabase = category.BaseDatabase;
@@ -74,9 +74,9 @@ namespace EasyDatabase
         /// </summary>
         /// <param name="name">Get name of the category to create</param>
         /// <returns>The category created</returns>
-        public EasyDatabaseCategory CreateSubCategory(string name)
+        public DatabaseCategory CreateSubCategory(string name)
         {
-            var subcategory = new EasyDatabaseCategory(this, name);
+            var subcategory = new DatabaseCategory(this, name);
             SubCategories.Add(subcategory);
             return subcategory;
         }
@@ -86,9 +86,9 @@ namespace EasyDatabase
         /// </summary>
         /// <param name="name">The name of the category to get or create</param>
         /// <returns>The category created or retrieved</returns>
-        public EasyDatabaseCategory GetSubCategory(string name)
+        public DatabaseCategory GetSubCategory(string name)
         {
-            var subcategory = new EasyDatabaseCategory(this, name);
+            var subcategory = new DatabaseCategory(this, name);
             SubCategories.Add(subcategory);
             return subcategory;
         }
@@ -97,14 +97,14 @@ namespace EasyDatabase
         /// Gets a list of all the subcategories in this category
         /// </summary>
         /// <returns>A list of subcategories</returns>
-        public IReadOnlyList<EasyDatabaseCategory> GetSubCategories()
+        public IReadOnlyList<DatabaseCategory> GetSubCategories()
         {
             var info = new DirectoryInfo(Path);
             var directories = info.GetDirectories();
-            List<EasyDatabaseCategory> result = Array.Empty<EasyDatabaseCategory>().ToList();
+            List<DatabaseCategory> result = Array.Empty<DatabaseCategory>().ToList();
             foreach (var directory in directories)
             {
-                result.Add(new EasyDatabaseCategory(this, directory.Name));
+                result.Add(new DatabaseCategory(this, directory.Name));
             }
             SubCategories = result;
             return result;

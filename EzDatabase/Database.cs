@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EasyDatabase
+namespace EzDatabase
 {
     /// <summary>
     /// Represents a database object
@@ -18,7 +18,7 @@ namespace EasyDatabase
         /// <summary>
         /// A list of the categories of the database
         /// </summary>
-        public List<EasyDatabaseCategory> Categories { get; internal set; }
+        public List<DatabaseCategory> Categories { get; internal set; }
 
         /// <summary>
         /// Creates a new database
@@ -42,9 +42,9 @@ namespace EasyDatabase
         /// </summary>
         /// <param name="name">The name of the category to create</param>
         /// <returns>The category created</returns>
-        public EasyDatabaseCategory CreateCategory(string name)
+        public DatabaseCategory CreateCategory(string name)
         {
-            var category = new EasyDatabaseCategory(this, name);
+            var category = new DatabaseCategory(this, name);
             if(!Categories.Where(x => x.Name.ToLower() == name.ToLower()).Any())
             {
                 Categories.Add(category);
@@ -57,9 +57,9 @@ namespace EasyDatabase
         /// </summary>
         /// <param name="name">The name of the category to get</param>
         /// <returns>The category requested</returns>
-        public EasyDatabaseCategory GetCategory(string name)
+        public DatabaseCategory GetCategory(string name)
         {
-            var category = new EasyDatabaseCategory(this, name);
+            var category = new DatabaseCategory(this, name);
             if (!Categories.Where(x => x.Name.ToLower() == name.ToLower()).Any())
             {
                 Categories.Add(category);
@@ -71,14 +71,14 @@ namespace EasyDatabase
         /// Gets a list of all the categories in the database
         /// </summary>
         /// <returns>A list of all the categories</returns>
-        public IReadOnlyList<EasyDatabaseCategory> GetCategories()
+        public IReadOnlyList<DatabaseCategory> GetCategories()
         {
             var info = new DirectoryInfo(Name);
             var directories = info.GetDirectories();
-            List<EasyDatabaseCategory> result = Array.Empty<EasyDatabaseCategory>().ToList();
+            List<DatabaseCategory> result = Array.Empty<DatabaseCategory>().ToList();
             foreach (var directory in directories)
             {
-                result.Add(new EasyDatabaseCategory(this, directory.Name));
+                result.Add(new DatabaseCategory(this, directory.Name));
             }
             Categories = result;
             return result;
