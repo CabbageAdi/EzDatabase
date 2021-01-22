@@ -33,6 +33,11 @@ namespace EzDatabase
         public string FullPath { get; internal set; }
 
         /// <summary>
+        /// Gets the directory this category is associated with
+        /// </summary>
+        public DirectoryInfo BaseDirectory { get; internal set; }
+
+        /// <summary>
         /// If a subcategory, gets the parent category, otherwise returns null
         /// </summary>
         public DatabaseCategory ParentCategory { get; internal set; }
@@ -60,6 +65,7 @@ namespace EzDatabase
             Path = $"{BaseDatabase.Name}\\{Name}";
             var directory = Directory.CreateDirectory(Path);
             FullPath = directory.FullName;
+            BaseDirectory = directory;
         }
 
         internal void InitializeSubCategory()
@@ -67,6 +73,7 @@ namespace EzDatabase
             Path = $"{ParentCategory.Path}\\{Name}";
             var directory = Directory.CreateDirectory(Path);
             FullPath = directory.FullName;
+            BaseDirectory = directory;
         }
 
         /// <summary>

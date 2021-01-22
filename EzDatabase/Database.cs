@@ -21,6 +21,11 @@ namespace EzDatabase
         public string FullPath { get; internal set; }
 
         /// <summary>
+        /// Gets the directory this database is associated with
+        /// </summary>
+        public DirectoryInfo BaseDirectory { get; internal set; }
+
+        /// <summary>
         /// Creates a new database
         /// </summary>
         /// <param name="name">The name of the database to create</param>
@@ -35,6 +40,7 @@ namespace EzDatabase
         {
             var directory = Directory.CreateDirectory(Name);
             FullPath = directory.FullName;
+            BaseDirectory = directory;
         }
 
         /// <summary>
