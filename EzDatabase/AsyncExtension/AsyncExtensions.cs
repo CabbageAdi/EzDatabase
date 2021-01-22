@@ -33,7 +33,7 @@ namespace EzDatabase.AsyncExtension
         /// <param name="category">The base category</param>
         /// <param name="name">The name of the json file</param>
         /// <returns>The deserialized object from the json file</returns>
-        public static async Task<T> GetJsonsync<T>(this DatabaseCategory category, string name)
+        public static async Task<T> GetJsonAsync<T>(this DatabaseCategory category, string name)
         {
             var FilePath = $"{category.Path}\\{name}.json";
             var text = await File.ReadAllTextAsync(FilePath);
@@ -63,7 +63,7 @@ namespace EzDatabase.AsyncExtension
         }
 
         /// <summary>
-        /// Saves a file in this category with the specified name, extension and data
+        /// Asynchronously saves a file in this category with the specified name, extension and data
         /// </summary>
         /// <param name="category">The base category</param>
         /// <param name="name">The name of the file</param>
@@ -74,7 +74,7 @@ namespace EzDatabase.AsyncExtension
             await File.WriteAllTextAsync($"{category.Path}\\{name}{extension}", data);
         }
         /// <summary>
-        /// Saves a file in this category with the specified name, extension and data
+        /// Asynchronously saves a file in this category with the specified name, extension and data
         /// </summary>
         /// <param name="category">The base category</param>
         /// <param name="name">The name of the file</param>
@@ -85,13 +85,13 @@ namespace EzDatabase.AsyncExtension
             await File.WriteAllBytesAsync($"{category.Path}\\{name}{extension}", data);
         }
         /// <summary>
-        /// Saves a file in this category with the specified name, extension and data
+        /// Asynchronously saves a file in this category with the specified name, extension and data
         /// </summary>
         /// <param name="category">The base category</param>
         /// <param name="name">The name of the file</param>
         /// <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
         /// <param name="data">The data to be stored in the file</param>
-        public static async Task SaveFile(this DatabaseCategory category, string name, string extension, Stream data)
+        public static async Task SaveFileAsync(this DatabaseCategory category, string name, string extension, Stream data)
         {
             if (data is MemoryStream)
             {
@@ -100,7 +100,7 @@ namespace EzDatabase.AsyncExtension
             else
             {
                 var ms = new MemoryStream();
-                data.CopyTo(ms);
+                await data.CopyToAsync(ms);
                 await File.WriteAllBytesAsync($"{category.Path}\\{name}{extension}", ms.ToArray());
             }
         }
