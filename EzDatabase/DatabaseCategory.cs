@@ -171,26 +171,28 @@ namespace EzDatabase
             }
             return filenames;
         }
-
         /// <summary>
-        /// Gets a list of deseralized json files in this category
+        /// Gets a list of all json files in the category deserialized to the given Type
         /// </summary>
-        /// <typeparam name="T">The type of the json files</typeparam>
-        /// <returns>A list of deserialized objects</returns>
-        public IReadOnlyList<T> GetAllJson<T>()
+        /// <typeparam name="T">The type to deserialize to</typeparam>
+        /// <returns>A dictionary with the key being the name of the file and the value a the object</returns>
+        public IReadOnlyDictionary<IReadOnlyList<string>, IReadOnlyList<T>> GetAllJson<T>()
         {
             var info = new DirectoryInfo(Path);
             var files = info.GetFiles();
-            List<T> result = Array.Empty<T>().ToList();
+            List<string> filenames = Array.Empty<string>().ToList();
+            List<T> data = Array.Empty<T>().ToList();
             foreach (var file in files)
             {
                 if (file.Extension == ".json")
                 {
-                    var text = File.ReadAllText(file.FullName);
-                    result.Add(JsonConvert.DeserializeObject<T>(text));
+                    filenames.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                    data.Add(JsonConvert.DeserializeObject<T>(File.ReadAllText(file.FullName)));
                 }
             }
-            return result;
+            var dictionary = new Dictionary<IReadOnlyList<string>, IReadOnlyList<T>>();
+            dictionary.Add(filenames, data);
+            return dictionary;
         }
 
         /// <summary>
@@ -198,8 +200,60 @@ namespace EzDatabase
         /// </summary>
         /// <param name="name"></param>
         public void DeleteJson(string name)
-        { 
+        {
             File.Delete($"{Path}\\{name}.json");
+        }
+
+        /// <summary>
+        /// Saves the given text in a .txt file
+        /// </summary>
+        /// <param name="name">The name of the file</param>
+        /// <param name="text">The text to be written in the file</param>
+        public void SaveText(string name, string text)
+        {
+            File.WriteAllText($"{Path}\\{name}.txt", text);
+        }
+
+        /// <summary>
+        /// Gets the text from the given file
+        /// </summary>
+        /// <param name="name">The name of the file</param>
+        /// <returns>The text from the file</returns>
+        public string GetText(string name)
+        {
+            return File.ReadAllText($"{Path}\\{name}.txt");
+        }
+
+        /// <summary>
+        /// Gets a list of all text files from the category
+        /// </summary>
+        /// <returns>A dictionary with the key being the name of the file and the value the text in the file</returns>
+        public IReadOnlyDictionary<IReadOnlyList<string>, IReadOnlyList<string>> GetAllText()
+        {
+            var info = new DirectoryInfo(Path);
+            var files = info.GetFiles();
+            List<string> filenames = new List<string>();
+            List<string> text = new List<string>();
+            foreach (var file in files)
+            {
+                if (file.Extension == ".txt")
+                {
+                    filenames.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                    text.Add(File.ReadAllText(file.FullName));
+                }
+            }
+            var dictionary = new Dictionary<IReadOnlyList<string>, IReadOnlyList<string>>();
+            dictionary.Add(filenames, text);
+            return dictionary;
+        }
+
+        /// <summary>
+        /// Deletes the specified text file
+        /// </summary>
+        /// <param name="name">The name of the text file to delete</param>
+        public void DeleteText(string name)
+        {
+            File.Delete($"{Path}\\{name}.txt");
         }
 
         /// <summary>
@@ -264,7 +318,7 @@ namespace EzDatabase
         /// <summary>
         /// Gets a list of all the files with the specified extension in this category
         /// </summary>
-        /// <param name="extension"></param>
+        /// <param name="extension">The extension of the files to find with a period (for example: ".jpg")</param>
         /// <returns>A list of files with the specified extension</returns>
         public IReadOnlyList<FileInfo> GetAllFiles(string extension)
         {
