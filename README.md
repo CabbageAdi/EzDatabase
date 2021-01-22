@@ -2,7 +2,7 @@
 An easy to use json based I/O database for C#
 
 # How it works
-Instead of having to bother yourself with SQL and add unnecessary dependencies to your project, you can use EasyDatabase to make a simple file based database and store your info
+Instead of having to bother yourself with SQL and add unnecessary dependencies to your project, you can use EzDatabase to make a simple file based database and store your info
 in simple JSON format, or even store images, or anything you can normally store in your computer as a file!
 
 It utitlizes Newtonsoft.Json to serialize and deserailize objects and then store them in .json format
