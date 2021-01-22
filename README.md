@@ -1,4 +1,4 @@
-# EasyDatabase
+# EzDatabase
 An easy to use json based I/O database for C#
 
 # How it works
