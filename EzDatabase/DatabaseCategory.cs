@@ -83,19 +83,18 @@ namespace EzDatabase
         /// <returns>The category created</returns>
         public DatabaseCategory CreateSubCategory(string name)
         {
-            var subcategory = new DatabaseCategory(this, name);
-            return subcategory;
+            return new DatabaseCategory(this, name);
         }
 
         /// <summary>
-        /// Gets or creates a subcategory in this category
+        /// Gets a subcategory in this category, returns null if no category of the name is found
         /// </summary>
-        /// <param name="name">The name of the category to get or create</param>
-        /// <returns>The category created or retrieved</returns>
+        /// <param name="name">The name of the category to get</param>
+        /// <returns>The category retrieved, null if no category is found</returns>
         public DatabaseCategory GetSubCategory(string name)
         {
-            var subcategory = new DatabaseCategory(this, name);
-            return subcategory;
+            if (!Directory.Exists($"{Path}\\{name}")) return null;
+            return new DatabaseCategory(this, name);
         }
 
         /// <summary>
@@ -116,12 +115,12 @@ namespace EzDatabase
 
         /// <summary>
         /// Deletes a subcategory in this category
+        /// <para>WARNING: This irreversibly deletes the category and all the data inside of it</para>
         /// </summary>
         /// <param name="name">The name of the subcategory to delete</param>
         public void DeleteSubCategory(string name)
         {
-            Directory.Delete($"{Path}\\{name}");
-            GetSubCategories();
+            Directory.Delete($"{Path}\\{name}", true);
         }
 
         /// <summary>

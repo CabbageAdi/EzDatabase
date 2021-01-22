@@ -50,19 +50,18 @@ namespace EzDatabase
         /// <returns>The category created</returns>
         public DatabaseCategory CreateCategory(string name)
         {
-            var category = new DatabaseCategory(this, name);
-            return category;
+            return new DatabaseCategory(this, name);
         }
 
         /// <summary>
-        /// Gets or creates a category in the database
+        /// Gets a category in the database, returns null if no category of the name is found
         /// </summary>
         /// <param name="name">The name of the category to get</param>
-        /// <returns>The category requested</returns>
+        /// <returns>The category requested, null if not found</returns>
         public DatabaseCategory GetCategory(string name)
         {
-            var category = new DatabaseCategory(this, name);
-            return category;
+            if (!Directory.Exists($"{Name}\\{name}")) return null;
+            return new DatabaseCategory(this, name);
         }
 
         /// <summary>
