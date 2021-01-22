@@ -172,26 +172,22 @@ namespace EzDatabase
             return filenames;
         }
         /// <summary>
-        /// Gets a list of all json files in the category deserialized to the given Type
+        /// Gets a dictionary of all json files in the category deserialized to the given Type
         /// </summary>
         /// <typeparam name="T">The type to deserialize to</typeparam>
         /// <returns>A dictionary with the key being the name of the file and the value a the object</returns>
-        public IReadOnlyDictionary<IReadOnlyList<string>, IReadOnlyList<T>> GetAllJson<T>()
+        public IReadOnlyDictionary<string, T> GetAllJson<T>()
         {
             var info = new DirectoryInfo(Path);
             var files = info.GetFiles();
-            List<string> filenames = Array.Empty<string>().ToList();
-            List<T> data = Array.Empty<T>().ToList();
+            var dictionary = new Dictionary<string, T>();
             foreach (var file in files)
             {
                 if (file.Extension == ".json")
                 {
-                    filenames.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name));
-                    data.Add(JsonConvert.DeserializeObject<T>(File.ReadAllText(file.FullName)));
+                    dictionary.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name), JsonConvert.DeserializeObject<T>(File.ReadAllText(file.FullName)));
                 }
             }
-            var dictionary = new Dictionary<IReadOnlyList<string>, IReadOnlyList<T>>();
-            dictionary.Add(filenames, data);
             return dictionary;
         }
 
@@ -228,22 +224,18 @@ namespace EzDatabase
         /// Gets a list of all text files from the category
         /// </summary>
         /// <returns>A dictionary with the key being the name of the file and the value the text in the file</returns>
-        public IReadOnlyDictionary<IReadOnlyList<string>, IReadOnlyList<string>> GetAllText()
+        public IReadOnlyDictionary<string, string> GetAllText()
         {
             var info = new DirectoryInfo(Path);
             var files = info.GetFiles();
-            List<string> filenames = new List<string>();
-            List<string> text = new List<string>();
+            var dictionary = new Dictionary<string, string>();
             foreach (var file in files)
             {
                 if (file.Extension == ".txt")
                 {
-                    filenames.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name));
-                    text.Add(File.ReadAllText(file.FullName));
+                    dictionary.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name), File.ReadAllText(file.FullName));
                 }
             }
-            var dictionary = new Dictionary<IReadOnlyList<string>, IReadOnlyList<string>>();
-            dictionary.Add(filenames, text);
             return dictionary;
         }
 
