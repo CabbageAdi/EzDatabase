@@ -137,16 +137,15 @@ namespace EzDatabase.AsyncExtension
         /// <param name="data">The data to be stored in the file</param>
         public static async Task SaveFileAsync(this DatabaseCategory category, string name, string extension, Stream data)
         {
-            if (data is MemoryStream)
+            var path = $"{category.FullPath}\\{name}{extension}";
+
+            if (File.Exists(path))
             {
-                await File.WriteAllBytesAsync($"{category.FullPath}\\{name}{extension}", ((MemoryStream)data).ToArray());
+                File.Delete(path);
             }
-            else
-            {
-                var ms = new MemoryStream();
-                await data.CopyToAsync(ms);
-                await File.WriteAllBytesAsync($"{category.FullPath}\\{name}{extension}", ms.ToArray());
-            }
+
+            using FileStream fileStream = File.Create(path);
+            await data.CopyToAsync(fileStream);
         }
     }
 }
