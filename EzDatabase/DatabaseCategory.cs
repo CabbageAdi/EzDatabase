@@ -378,5 +378,14 @@ namespace EzDatabase
                 file.Delete();
             }
         }
+
+        /// <summary>
+        /// Deletes all files and subcategories in this category
+        /// </summary>
+        public void ClearAll()
+        {
+            Directory.Delete(FullPath, true);
+            Directory.CreateDirectory(FullPath);
+        }
     }
 }
