@@ -356,5 +356,27 @@ namespace EzDatabase
         {
             File.Delete($"{FullPath}\\{name}{extension}");
         }
+
+        /// <summary>
+        /// Deletes all files in this category
+        /// </summary>
+        public void Clear()
+        {
+            foreach(var file in GetAllFiles())
+            {
+                file.Delete();
+            }
+        }
+        /// <summary>
+        /// Deletes all files with the extension in this category
+        /// </summary>
+        /// <param name="extension">The extension of the files to delete</param>
+        public void Clear(string extension)
+        {
+            foreach(var file in GetAllFiles(extension))
+            {
+                file.Delete();
+            }
+        }
     }
 }
