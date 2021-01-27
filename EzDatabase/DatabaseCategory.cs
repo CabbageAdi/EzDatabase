@@ -299,16 +299,15 @@ namespace EzDatabase
         /// <param name="data">The data to be stored in the file</param>
         public void SaveFile(string name, string extension, Stream data)
         {
-            if (data is MemoryStream)
+            var path = $"{Path}\\{name}{extension}";
+
+            if (File.Exists(path))
             {
-                File.WriteAllBytes($"{Path}\\{name}{extension}", ((MemoryStream)data).ToArray());
+                File.Delete(path);
             }
-            else
-            {
-                var ms = new MemoryStream();
-                data.CopyTo(ms);
-                File.WriteAllBytes($"{Path}\\{name}{extension}", ms.ToArray());
-            }
+
+            using FileStream fileStream = File.Create(path);
+            data.CopyTo(fileStream);
         }
 
         /// <summary>
