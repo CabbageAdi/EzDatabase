@@ -25,20 +25,24 @@ namespace EzDatabase
         /// </summary>
         public DirectoryInfo BaseDirectory { get; internal set; }
 
+        internal string BaseDirectoryPath;
+
         /// <summary>
         /// Creates a new database
         /// </summary>
         /// <param name="name">The name of the database to create</param>
-        public Database(string name)
+        /// <param name="basepath">The path to make the database in</param>
+        public Database(string name, string basepath = "")
         {
             Name = name;
+            BaseDirectoryPath = basepath;
 
             Initialize();
         }
 
         internal void Initialize()
         {
-            var directory = Directory.CreateDirectory(Name);
+            var directory = Directory.CreateDirectory($"{BaseDirectoryPath}\\{Name}");
             FullPath = directory.FullName;
             BaseDirectory = directory;
         }
@@ -60,7 +64,7 @@ namespace EzDatabase
         /// <returns>The category requested, null if not found</returns>
         public DatabaseCategory GetCategory(string name)
         {
-            if (!Directory.Exists($"{Name}\\{name}")) return null;
+            if (!Directory.Exists($"{FullPath}\\{name}")) return null;
             return new DatabaseCategory(this, name);
         }
 
@@ -70,7 +74,7 @@ namespace EzDatabase
         /// <returns>A list of all the categories</returns>
         public IReadOnlyList<DatabaseCategory> GetCategories()
         {
-            var info = new DirectoryInfo(Name);
+            var info = new DirectoryInfo(FullPath);
             var directories = info.GetDirectories();
             var result = new List<DatabaseCategory>();
             foreach (var directory in directories)
@@ -87,7 +91,7 @@ namespace EzDatabase
         /// <param name="name">The name of the category to delete</param>
         public void DeleteCategory(string name)
         {
-            Directory.Delete($"{Name}\\{name}", true);
+            Directory.Delete($"{FullPath}\\{name}", true);
         }
     }
 }

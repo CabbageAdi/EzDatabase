@@ -23,11 +23,6 @@ namespace EzDatabase
         public Database BaseDatabase { get; internal set; }
 
         /// <summary>
-        /// Gets the path of this category
-        /// </summary>
-        public string Path { get; internal set; }
-
-        /// <summary>
         /// Gets the full path of this category
         /// </summary>
         public string FullPath { get; internal set; }
@@ -62,16 +57,16 @@ namespace EzDatabase
 
         internal void Initailize()
         {
-            Path = $"{BaseDatabase.Name}\\{Name}";
-            var directory = Directory.CreateDirectory(Path);
+            FullPath = $"{BaseDatabase.FullPath}\\{Name}";
+            var directory = Directory.CreateDirectory(FullPath);
             FullPath = directory.FullName;
             BaseDirectory = directory;
         }
 
         internal void InitializeSubCategory()
         {
-            Path = $"{ParentCategory.Path}\\{Name}";
-            var directory = Directory.CreateDirectory(Path);
+            FullPath = $"{ParentCategory.FullPath}\\{Name}";
+            var directory = Directory.CreateDirectory(FullPath);
             FullPath = directory.FullName;
             BaseDirectory = directory;
         }
@@ -93,7 +88,7 @@ namespace EzDatabase
         /// <returns>The category retrieved, null if no category is found</returns>
         public DatabaseCategory GetSubCategory(string name)
         {
-            if (!Directory.Exists($"{Path}\\{name}")) return null;
+            if (!Directory.Exists($"{FullPath}\\{name}")) return null;
             return new DatabaseCategory(this, name);
         }
 
@@ -103,7 +98,7 @@ namespace EzDatabase
         /// <returns>A list of subcategories</returns>
         public IReadOnlyList<DatabaseCategory> GetSubCategories()
         {
-            var info = new DirectoryInfo(Path);
+            var info = new DirectoryInfo(FullPath);
             var directories = info.GetDirectories();
             var result = new List<DatabaseCategory>();
             foreach (var directory in directories)
@@ -120,7 +115,7 @@ namespace EzDatabase
         /// <param name="name">The name of the subcategory to delete</param>
         public void DeleteSubCategory(string name)
         {
-            Directory.Delete($"{Path}\\{name}", true);
+            Directory.Delete($"{FullPath}\\{name}", true);
         }
 
         /// <summary>
@@ -131,7 +126,7 @@ namespace EzDatabase
         public void SaveJson(string name, object data)
         {
             var json = JsonConvert.SerializeObject(data);
-            File.WriteAllText($"{Path}\\{name}.json", json);
+            File.WriteAllText($"{FullPath}\\{name}.json", json);
         }
 
         /// <summary>
@@ -142,7 +137,7 @@ namespace EzDatabase
         /// <returns>The deserialized object from the json file</returns>
         public T GetJson<T>(string name)
         {
-            var FilePath = $"{Path}\\{name}.json";
+            var FilePath = $"{FullPath}\\{name}.json";
             var text = File.ReadAllText(FilePath);
             return JsonConvert.DeserializeObject<T>(text);
         }
@@ -153,7 +148,7 @@ namespace EzDatabase
         /// <returns>A FileInfo object corresponding to the json file</returns>
         public FileInfo GetJson(string name)
         {
-            return new FileInfo($"{Path}\\{name}.json");
+            return new FileInfo($"{FullPath}\\{name}.json");
         }
 
         /// <summary>
@@ -163,7 +158,7 @@ namespace EzDatabase
         /// <returns>A bool indicating whether the json file exists</returns>
         public bool HasJson(string name)
         {
-            return File.Exists($"{Path}\\{name}.json");
+            return File.Exists($"{FullPath}\\{name}.json");
         }
 
         /// <summary>
@@ -172,14 +167,14 @@ namespace EzDatabase
         /// <returns>A list of the names of json files in this category</returns>
         public IReadOnlyList<string> GetAllJson()
         {
-            var info = new DirectoryInfo(Path);
+            var info = new DirectoryInfo(FullPath);
             var files = info.GetFiles();
             var filenames = new List<string>();
             foreach (var file in files)
             {
                 if (file.Extension == ".json")
                 {
-                    filenames.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name));
+                    filenames.Add(Path.GetFileNameWithoutExtension(file.Name));
                 }
             }
             return filenames;
@@ -191,14 +186,14 @@ namespace EzDatabase
         /// <returns>A dictionary with the key being the name of the file and the value a the object</returns>
         public IReadOnlyDictionary<string, T> GetAllJson<T>()
         {
-            var info = new DirectoryInfo(Path);
+            var info = new DirectoryInfo(FullPath);
             var files = info.GetFiles();
             var dictionary = new Dictionary<string, T>();
             foreach (var file in files)
             {
                 if (file.Extension == ".json")
                 {
-                    dictionary.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name), JsonConvert.DeserializeObject<T>(File.ReadAllText(file.FullName)));
+                    dictionary.Add(Path.GetFileNameWithoutExtension(file.Name), JsonConvert.DeserializeObject<T>(File.ReadAllText(file.FullName)));
                 }
             }
             return dictionary;
@@ -210,7 +205,7 @@ namespace EzDatabase
         /// <param name="name"></param>
         public void DeleteJson(string name)
         {
-            File.Delete($"{Path}\\{name}.json");
+            File.Delete($"{FullPath}\\{name}.json");
         }
 
         /// <summary>
@@ -220,7 +215,7 @@ namespace EzDatabase
         /// <param name="text">The text to be written in the file</param>
         public void SaveText(string name, string text)
         {
-            File.WriteAllText($"{Path}\\{name}.txt", text);
+            File.WriteAllText($"{FullPath}\\{name}.txt", text);
         }
 
         /// <summary>
@@ -230,7 +225,7 @@ namespace EzDatabase
         /// <returns>The text from the file</returns>
         public string GetText(string name)
         {
-            return File.ReadAllText($"{Path}\\{name}.txt");
+            return File.ReadAllText($"{FullPath}\\{name}.txt");
         }
 
         /// <summary>
@@ -240,7 +235,7 @@ namespace EzDatabase
         /// <returns>A bool indicating whether the text file with the specified name exists</returns>
         public bool HasText(string name)
         {
-            return File.Exists($"{Path}\\{name}.txt");
+            return File.Exists($"{FullPath}\\{name}.txt");
         }
 
         /// <summary>
@@ -249,14 +244,14 @@ namespace EzDatabase
         /// <returns>A dictionary with the key being the name of the file and the value the text in the file</returns>
         public IReadOnlyDictionary<string, string> GetAllText()
         {
-            var info = new DirectoryInfo(Path);
+            var info = new DirectoryInfo(FullPath);
             var files = info.GetFiles();
             var dictionary = new Dictionary<string, string>();
             foreach (var file in files)
             {
                 if (file.Extension == ".txt")
                 {
-                    dictionary.Add(System.IO.Path.GetFileNameWithoutExtension(file.Name), File.ReadAllText(file.FullName));
+                    dictionary.Add(Path.GetFileNameWithoutExtension(file.Name), File.ReadAllText(file.FullName));
                 }
             }
             return dictionary;
@@ -268,7 +263,7 @@ namespace EzDatabase
         /// <param name="name">The name of the text file to delete</param>
         public void DeleteText(string name)
         {
-            File.Delete($"{Path}\\{name}.txt");
+            File.Delete($"{FullPath}\\{name}.txt");
         }
 
         /// <summary>
@@ -279,7 +274,7 @@ namespace EzDatabase
         /// <param name="data">The data to be stored in the file</param>
         public void SaveFile(string name, string extension, string data)
         {
-            File.WriteAllText($"{Path}\\{name}{extension}", data);
+            File.WriteAllText($"{FullPath}\\{name}{extension}", data);
         }
         /// <summary>
         /// Saves a file in this category with the specified name, extension and data
@@ -289,7 +284,7 @@ namespace EzDatabase
         /// <param name="data">The data to be stored in the file</param>
         public void SaveFile(string name, string extension, byte[] data)
         {
-            File.WriteAllBytes($"{Path}\\{name}{extension}", data);
+            File.WriteAllBytes($"{FullPath}\\{name}{extension}", data);
         }
         /// <summary>
         /// Saves a file in this category with the specified name, extension and data
@@ -299,7 +294,7 @@ namespace EzDatabase
         /// <param name="data">The data to be stored in the file</param>
         public void SaveFile(string name, string extension, Stream data)
         {
-            var path = $"{Path}\\{name}{extension}";
+            var path = $"{FullPath}\\{name}{extension}";
 
             if (File.Exists(path))
             {
@@ -317,7 +312,7 @@ namespace EzDatabase
         /// <param name="extension">The extension of the file with a period (for example: ".jpg")</param>
         public FileInfo GetFile(string name, string extension)
         {
-            return new FileInfo($"{Path}\\{name}{extension}");
+            return new FileInfo($"{FullPath}\\{name}{extension}");
         }
 
         /// <summary>
@@ -328,7 +323,7 @@ namespace EzDatabase
         /// <returns>A bool indicating whether the file with the specified name and extension exists in this category</returns>
         public bool HasFile(string name, string extension)
         {
-            return File.Exists($"{Path}\\{name}{extension}");
+            return File.Exists($"{FullPath}\\{name}{extension}");
         }
 
         /// <summary>
@@ -337,7 +332,7 @@ namespace EzDatabase
         /// <returns>A list of files in this category</returns>
         public IReadOnlyList<FileInfo> GetAllFiles()
         {
-            var info = new DirectoryInfo(Path);
+            var info = new DirectoryInfo(FullPath);
             return info.GetFiles();
         }
         /// <summary>
@@ -347,7 +342,7 @@ namespace EzDatabase
         /// <returns>A list of files with the specified extension</returns>
         public IReadOnlyList<FileInfo> GetAllFiles(string extension)
         {
-            var info = new DirectoryInfo(Path);
+            var info = new DirectoryInfo(FullPath);
             var files = info.GetFiles();
             return files.Where(file => file.Extension == extension).ToList();
         }
@@ -359,7 +354,7 @@ namespace EzDatabase
         /// <param name="extension">The extension of the file to delete with a period (for example: ".jpg")</param>
         public void DeleteFile(string name, string extension)
         {
-            File.Delete($"{Path}\\{name}{extension}");
+            File.Delete($"{FullPath}\\{name}{extension}");
         }
     }
 }

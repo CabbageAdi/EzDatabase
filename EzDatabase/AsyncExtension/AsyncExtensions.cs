@@ -23,7 +23,7 @@ namespace EzDatabase.AsyncExtension
         public static async Task SaveJsonAsync(this DatabaseCategory category, string name, object data)
         {
             var json = JsonConvert.SerializeObject(data);
-            await File.WriteAllTextAsync($"{category.Path}\\{name}.json", json);
+            await File.WriteAllTextAsync($"{category.FullPath}\\{name}.json", json);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace EzDatabase.AsyncExtension
         /// <returns>The deserialized object from the json file</returns>
         public static async Task<T> GetJsonAsync<T>(this DatabaseCategory category, string name)
         {
-            var FilePath = $"{category.Path}\\{name}.json";
+            var FilePath = $"{category.FullPath}\\{name}.json";
             var text = await File.ReadAllTextAsync(FilePath);
             return JsonConvert.DeserializeObject<T>(text);
         }
@@ -48,7 +48,7 @@ namespace EzDatabase.AsyncExtension
         /// <returns>A dictionary with the key being the name of the file and the value a the object</returns>
         public static async Task<IReadOnlyDictionary<string, T>> GetAllJsonAsync<T>(this DatabaseCategory category)
         {
-            var info = new DirectoryInfo(category.Path);
+            var info = new DirectoryInfo(category.FullPath);
             var files = info.GetFiles();
             var dictionary = new Dictionary<string, T>();
             foreach (var file in files)
@@ -70,7 +70,7 @@ namespace EzDatabase.AsyncExtension
         /// <param name="text">The text to be written in the file</param>
         public static async Task SaveTextAsync(this DatabaseCategory category, string name, string text)
         {
-            await File.WriteAllTextAsync($"{category.Path}\\{name}.txt", text);
+            await File.WriteAllTextAsync($"{category.FullPath}\\{name}.txt", text);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace EzDatabase.AsyncExtension
         /// <returns>The text from the file</returns>
         public static async Task<string> GetTextAsync(this DatabaseCategory category, string name)
         {
-            var text = await File.ReadAllTextAsync($"{category.Path}\\{name}.txt");
+            var text = await File.ReadAllTextAsync($"{category.FullPath}\\{name}.txt");
             return text;
         }
 
@@ -92,7 +92,7 @@ namespace EzDatabase.AsyncExtension
         /// <returns>A dictionary with the key being the name of the file and the value the text in the file</returns>
         public static async Task<IReadOnlyDictionary<string, string>> GetAllTextAsync(this DatabaseCategory category)
         {
-            var info = new DirectoryInfo(category.Path);
+            var info = new DirectoryInfo(category.FullPath);
             var files = info.GetFiles();
             var dictionary = new Dictionary<string, string>();
             foreach (var file in files)
@@ -115,7 +115,7 @@ namespace EzDatabase.AsyncExtension
         /// <param name="data">The data to be stored in the file</param>
         public static async Task SaveFileAsync(this DatabaseCategory category, string name, string extension, string data)
         {
-            await File.WriteAllTextAsync($"{category.Path}\\{name}{extension}", data);
+            await File.WriteAllTextAsync($"{category.FullPath}\\{name}{extension}", data);
         }
         /// <summary>
         /// Asynchronously saves a file in this category with the specified name, extension and data
@@ -126,7 +126,7 @@ namespace EzDatabase.AsyncExtension
         /// <param name="data">The data to be stored in the file</param>
         public static async Task SaveFileAsync(this DatabaseCategory category, string name, string extension, byte[] data)
         {
-            await File.WriteAllBytesAsync($"{category.Path}\\{name}{extension}", data);
+            await File.WriteAllBytesAsync($"{category.FullPath}\\{name}{extension}", data);
         }
         /// <summary>
         /// Asynchronously saves a file in this category with the specified name, extension and data
@@ -139,13 +139,13 @@ namespace EzDatabase.AsyncExtension
         {
             if (data is MemoryStream)
             {
-                await File.WriteAllBytesAsync($"{category.Path}\\{name}{extension}", ((MemoryStream)data).ToArray());
+                await File.WriteAllBytesAsync($"{category.FullPath}\\{name}{extension}", ((MemoryStream)data).ToArray());
             }
             else
             {
                 var ms = new MemoryStream();
                 await data.CopyToAsync(ms);
-                await File.WriteAllBytesAsync($"{category.Path}\\{name}{extension}", ms.ToArray());
+                await File.WriteAllBytesAsync($"{category.FullPath}\\{name}{extension}", ms.ToArray());
             }
         }
     }
