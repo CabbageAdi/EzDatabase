@@ -42,7 +42,15 @@ namespace EzDatabase
 
         internal void Initialize()
         {
-            var directory = Directory.CreateDirectory($"{BaseDirectoryPath}\\{Name}");
+            DirectoryInfo directory;
+            if(BaseDirectoryPath == "")
+            {
+                directory = Directory.CreateDirectory($"{Name}");
+            }
+            else
+            {
+                directory = Directory.CreateDirectory($"{BaseDirectoryPath}\\{Name}");
+            }
             FullPath = directory.FullName;
             BaseDirectory = directory;
         }
